@@ -10,8 +10,6 @@ import (
 	"os"
 	"strings"
 	"time"
-
-	"github.com/davidnarayan/go-logging"
 )
 
 // TimeoutDialer creates a Dialer that can timeout after a connection timeout
@@ -43,7 +41,7 @@ func ExitWhenOrphaned() {
 			select {
 			case <-tick1s:
 				if os.Getppid() == 1 {
-					logging.Fatal("Orphaned process! Exiting!")
+					panic("Orphaned process! Exiting!")
 				}
 			}
 		}
@@ -62,7 +60,7 @@ func GetArgs() (args []string) {
 			input, err := os.Open(file)
 
 			if err != nil {
-				logging.Warn(err.Error())
+				//logging.Warn(err.Error())
 				continue
 			}
 
@@ -86,11 +84,11 @@ func GetArgs() (args []string) {
 			}
 
 			args = append(args, arg)
-			logging.Trace("Adding arg: %s", arg)
+			//logging.Trace("Adding arg: %s", arg)
 		}
 
 		if err := scanner.Err(); err != nil {
-			logging.Error("Unable to add line: %s", err)
+			//logging.Error("Unable to add line: %s", err)
 		}
 	}
 
