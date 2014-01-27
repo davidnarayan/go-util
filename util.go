@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"flag"
 	"io"
+	"math/rand"
 	"net"
 	"os"
 	"strings"
@@ -94,4 +95,14 @@ func GetArgs() (args []string) {
 	}
 
 	return args
+}
+
+// Return a random duration between two (positive) durations
+func RandomDuration(min, max time.Duration) time.Duration {
+	rand.Seed(time.Now().UnixNano())
+	nmin := int(min.Seconds())
+	nmax := int(max.Seconds())
+	n := rand.Intn(nmax-nmin) + nmax
+
+	return time.Second * time.Duration(n)
 }
