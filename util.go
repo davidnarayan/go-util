@@ -1,5 +1,5 @@
 // Collection of small, useful utility functions
-package main
+package util
 
 import (
 	"bufio"
