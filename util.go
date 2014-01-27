@@ -95,5 +95,3 @@ func GetArgs() (args []string) {
 
 	return args
 }
-
-func main() {}
