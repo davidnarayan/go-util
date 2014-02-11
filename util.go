@@ -33,16 +33,13 @@ func TimeoutDialer(connTimeout, rwTimeout time.Duration) func(netw, addr string)
 // script running indefinitely when it's being launched by some external
 // process (e.g. Splunk).
 func ExitWhenOrphaned() {
-	tick1s := time.NewTicker(time.Second * 1).C
+	ticker := time.Tick(1 * time.Second)
 
-	// Check for orphaned process
 	go func() {
-		for {
-			select {
-			case <-tick1s:
-				if os.Getppid() == 1 {
-					panic("Orphaned process! Exiting!")
-				}
+		for _ := range ticker {
+			// The parent pid of an orphaned process is PID 1
+			if os.Getppid() == 1 {
+				panic("Orphaned process. Exiting!")
 			}
 		}
 	}()
