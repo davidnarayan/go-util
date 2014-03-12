@@ -36,7 +36,7 @@ func ExitWhenOrphaned() {
 	ticker := time.Tick(1 * time.Second)
 
 	go func() {
-		for _ := range ticker {
+		for _ = range ticker {
 			// The parent pid of an orphaned process is PID 1
 			if os.Getppid() == 1 {
 				panic("Orphaned process. Exiting!")
