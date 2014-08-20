@@ -101,3 +101,31 @@ func RandomDuration(min, max time.Duration) time.Duration {
 
 	return time.Second * time.Duration(n)
 }
+
+// FQDN returns the fully qualified domain name of this host.
+func FQDN() (string, error) {
+	// Start with the hostname reported by the kernel.
+	h, err := os.Hostname()
+
+	if err != nil {
+		return "", err
+	}
+
+	// os.Hostname might not be fully qualified so lookup the IP, and then do
+	// a reverse lookup to get the FQDN
+	addrs, err := net.LookupHost(h)
+
+	if err != nil {
+		return "", err
+	}
+
+	names, err := net.LookupAddr(addrs[0])
+
+	if err != nil {
+		return "", err
+	}
+
+	name := strings.TrimRight(names[0], ".")
+
+	return name, err
+}
